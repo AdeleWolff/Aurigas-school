@@ -155,7 +155,7 @@ int vector_fill(Vector* vector, const size_t count, const_ptr value)
     
     for(int i = 0; i<count; i++)
     {
-        memcpy(vector_imp_at(vector,i),value,vector_imp->size_of_element);
+        memcpy(vector_imp_at(vector,i),value,vector_imp->size_of_element);  //where,what,how ma
     }
     return STATUS_OK;           
 }
@@ -210,7 +210,9 @@ int vector_push_back(Vector* vector, const_ptr element)
            vector_reserve(vector, vector_imp->size_of_element);
     }
     
-    (vector->data[vector->size--]) = element;
+    //vector->data[vector->size-1]=element;
+    memcpy(&vector->data[vector->size-1], &element, vector_imp->size_of_element);//where,what,how ma
+    
     return STATUS_OK;
 }
 
@@ -267,7 +269,8 @@ int vector_insert(Vector* vector, const size_t index, const_ptr element)
     vector_reserve(vector,vector_imp->size_of_element);
     vector_imp->size++;
     memmove(vector + index + 1,vector + index, (vector->size)-index); //where|from|how much
-    vector->data[index-1]=element;
+    //vector->data[index-1]=element;
+    memcpy(&vector->data[index-1], &element, vector_imp->size_of_element);//where,what,how ma
     return STATUS_OK;
 }
 

@@ -9,7 +9,7 @@
 void vectoNewTest(void)
 {
     Vector* v;
-    int result_status = vector_new(v, sizeof(int));
+    int result_status = vector_new(&v, sizeof(int));
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -17,7 +17,7 @@ void vectoNewTest(void)
 void vectoSizedNewTest(void)
 {
      Vector* v;
-     int result_status = vector_sized_new(v, sizeof(int), 100);
+     int result_status = vector_sized_new(&v, sizeof(int), 100);
      EXPECT_EQ(result_status, STATUS_OK); 
      vector_free(v);
 }
@@ -35,7 +35,8 @@ void vectoFreeTest(void)
 void vectoFillTest(void)
 {
     Vector* v;
-    int result_status = vector_fill(v, 100, '42');
+    int tmp=42;
+    int result_status = vector_fill(v, 100, &tmp);
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -51,7 +52,8 @@ void vectoReserveTest(void)
 void vectoPushBackTest(void)
 {
     Vector* v;
-    int result_status = vector_push_back(v, '42');
+    int tmp=42;
+    int result_status = vector_push_back(v, &tmp);
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -59,7 +61,8 @@ void vectoPushBackTest(void)
 void vectoPopBackTest(void)
 {
     Vector* v;
-    int result_status = vector_pop_back(v, '42');
+    const_ptr tmp;
+    int result_status = vector_pop_back(v, &tmp);    
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -67,7 +70,8 @@ void vectoPopBackTest(void)
 void vectoInsertTest(void)
 {
     Vector* v;
-    int result_status = vector_insert(v, 100, '42');
+    int tmp=42;
+    int result_status = vector_insert(v, 100, &tmp);
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -83,7 +87,8 @@ void vectoShrinkToFitTest(void)
 void vectoCapacityTest(void)
 {
     Vector* v;
-    int result_status = vector_capacity(v, 100);
+    size_t tmp=100;
+    int result_status = vector_capacity(v, &tmp);
     EXPECT_EQ(result_status, STATUS_OK); 
     vector_free(v);
 }
@@ -113,8 +118,8 @@ void vectoCapacityTest(void)
 // void failOnSigAbrtSignal(void) { raise(SIGABRT); }
 
 int main() {
-    srand((unsigned int)time(NULL));
-    TestSuite* testSuite = newTestSuite();
+    // // srand((unsigned int)time(NULL));
+    // // TestSuite* testSuite = newTestSuite();
     // // addTestCase(testSuite, "expect_equal_fail", expectEqualFail);
     // // addTestCase(testSuite, "expect_not_null_fail", expectNotNullFail);
     // // addTestCase(testSuite, "expect_null_success", expectNullSuccess);
