@@ -43,22 +43,15 @@ int vector_sized_new(Vector** vector, const size_t elementSize,
         return STATUS_ERROR_BAD_ARG;
     }
 
-    void* memory = malloc(sizeof(VectorImp));
-    //NO_MEMORY
-    if (memory == NULL)
-    {
-       return STATUS_ERROR_NO_MEMORY;
-    }
-
+    void* memory = malloc(elementSize*count);
     VectorImp* vector_imp = (VectorImp*)memory;
-    
-    memory = malloc(elementSize*count);
     //NO_MEMORY
     if (memory == NULL)
     {
        free(vector_imp);
        return STATUS_ERROR_NO_MEMORY;
     }
+    
 
     vector_imp->data = (byte*)memory;
     vector_imp->size = 0;
@@ -177,8 +170,10 @@ int vector_reserve(Vector* vector, const size_t newCapacity)
     }
     
     VectorImp* vector_imp = (VectorImp*)vector;
-    realloc(vector->data, (vector_imp->size_of_element)*newCapacity);
-    
+    if (vector_imp->capacity < newCapacity)
+    {
+        realloc(vector->data, (vector_imp->size_of_element)*newCapacity);
+    }
     //NO_MEMORY
     if (vector_imp->capacity != newCapacity)
     {
