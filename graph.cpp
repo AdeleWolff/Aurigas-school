@@ -15,8 +15,29 @@ class Graph
         
         std::size_t size(){};
 
-        void add_vertex();
-        void add_edge(std::size_t v1, std::size_t v2);
+        void add_vertex()
+        {
+            int n=adjacency_matrix.size();
+            for (int i=0;i<(n+1);i++)
+            {
+                this->adjacency_matrix[n][i]=0;
+                this->adjacency_matrix[i][n]=0;
+            }
+        };
+
+        void add_edge(std::size_t v1, std::size_t v2)
+        {
+            int n=adjacency_matrix.size();
+            if ((v1>n)||(v2>n))
+            {
+                return 0;
+            }
+            else
+            {
+                this->adjacency_matrix[v1][v2]=1;
+                this->adjacency_matrix[v2][v1]=1;
+            } 
+        };
         void del_vertex();
         void del_edge();
 
