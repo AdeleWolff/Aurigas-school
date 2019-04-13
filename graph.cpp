@@ -3,7 +3,7 @@
 #include <string>
 #include <boost/algorithm/string.hpp>
 
-using AdjacencyMatrix = std::vector<std::vector<bool> >;
+using AdjacencyMatrix = std::vector<std::vector<bool>;
 
 template<class Type>
 class Graph
