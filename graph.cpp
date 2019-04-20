@@ -2,6 +2,7 @@
 #include "graph.hpp"
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <gmock/gmock.h>
 
 using AdjacencyMatrix = std::vector<std::vector<bool>;
 
@@ -70,6 +71,21 @@ class MatrixGraph : public Graph<Type>
 template<class Type>
 class VertexListGraph : public Graph<Type>
 {
+    void in_file_print()
+    {
+        ofstream file;
+        file.open("file.txt");
+        for (int i=0;i<(adjacency_matrix.size());i++)
+        {
+           for(int j=0;j<(adjacency_matrix.size());j++)
+           {
+                file << a[i][j] << " "; 
+           }
+        file << std::endl;
+        }
+        file.close();
+    }
+    
     void input(std::vector<std::string> v)
     {
         std::vector<int> values;
@@ -79,6 +95,8 @@ class VertexListGraph : public Graph<Type>
             this->adjacency_matrix[values[0]][values[1]] = 1;
             this->adjacency_matrix[values[1]][values[0]] = 1;
         }
+        in_file_print();
+        
     };
 };
 
@@ -101,4 +119,11 @@ class EdgeListGraph : public Graph<Type>
         }
     };
     };
+    
+class MockVertexListGraph : public VertexListGraph
+{
+    public:
+    MOCK_METHOD1(input, void(std::vector<std::vector<bool>));
+};
+
 };
