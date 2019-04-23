@@ -1,6 +1,6 @@
 #include <string.h>
 #include <iostream>
-
+#include <vector>
 
 template <class Type>
 class Element
@@ -133,7 +133,39 @@ public:
 template <class Type>
 class HashTable : public Container<Type>
 {
-    // ... some code
+
+public:
+    std:vector<List> table;
+
+    HashTable(int size)
+    {
+        table= new Element<Type>*[size];
+        for ( int i = 0; i < size; i++ ) 
+        {
+            table[i] = NULL;
+        }
+        
+    }
+
+    void push_front(Type value) final
+    {
+        Type i=value % size;
+        Element<Type> *tmp = new Element<Type>(value);
+        tmp->next = table[i]->front;
+        table[i]->front = tmp;
+        
+    }
+
+    Type pop_front(Type value) final
+    {
+        Type i = value % size;
+        Element<Type> *tmp = table[i]->front;
+        table[i]->front = table[i]->front->next;
+        Type result = tmp->value;
+        delete tmp;
+        return result;
+    }
+
 };
 
 int main()
